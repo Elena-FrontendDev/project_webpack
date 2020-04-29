@@ -27,8 +27,8 @@ const cardSaveButton = addNewCardForm.querySelector('.popup__button');
 const profileInfo = new ProfileInfo('.user-info__name', '.user-info__job', '.user-info__photo', api);
 const newEditProfileInfo = new NewEditProfileInfo('.popup__input_type_edit-name', '.popup__input_type_about')
 const cardListContainer = new CardList(document.querySelector('.places-list'), api);
-const popup = new Popup(container.querySelector('.popup')); 
-const popupEdit = new Popup(container.querySelector('.popup__edit-profile')); 
+const popup = new Popup(container.querySelector('.popup'));
+const popupEdit = new Popup(container.querySelector('.popup__edit-profile'));
 
 
 
@@ -38,24 +38,24 @@ addNewCardForm.addEventListener('input', function () {
     cardSaveButton.classList.add('popup__button_active');
   } else {
     cardSaveButton.classList.remove('popup__button_active');
-  } 
+  }
   cardSaveButton.disabled = !addNewCardForm.checkValidity();
 });
 
-  
+
 cardname.addEventListener('input', function () {
   let error = '';
 
   if (!cardname.checkValidity()) {
     if (cardname.validity.tooShort || cardname.validity.tooLong) {
-      error = 'Должно быть от 2 до 30 символов';      
+      error = 'Должно быть от 2 до 30 символов';
     }
     if (cardname.validity.valueMissing) {
-      error = 'Это обязательное поле';      
-    }    
-  }  
+      error = 'Это обязательное поле';
+    }
+  }
   cardname.nextElementSibling.textContent = error;
- 
+
 });
 
 cardlink.addEventListener('input', function () {
@@ -63,14 +63,14 @@ cardlink.addEventListener('input', function () {
 
   if (!cardlink.checkValidity()) {
     if (cardlink.validity.valueMissing) {
-      error = 'Это обязательное поле';      
-    }   
+      error = 'Это обязательное поле';
+    }
     if (cardlink.validity.typeMismatch) {
-      error = 'Здесь должна быть ссылка';      
-    }  
+      error = 'Здесь должна быть ссылка';
+    }
   }
-    cardlink.nextElementSibling.textContent = error;
- 
+  cardlink.nextElementSibling.textContent = error;
+
 });
 
 
@@ -85,10 +85,11 @@ newCardCloseButton.addEventListener('click', function () {
 
 addNewCardForm.addEventListener('submit', function (event) {
   event.preventDefault();
-  cardListContainer.addCard(addNewCardForm.elements.name.value, addNewCardForm.elements.link.value,)
+  cardListContainer.addCard(addNewCardForm.elements.name.value, addNewCardForm.elements.link.value);
+  api.saveNewCard(addNewCardForm.elements.name.value, addNewCardForm.elements.link.value);
   popup.close();
   addNewCardForm.reset();
-}); 
+});
 
 
 

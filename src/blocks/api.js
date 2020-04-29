@@ -60,6 +60,28 @@ const options = {baseUrl: serverUrl, token: '34297802-4775-4606-acce-9817fbd4faf
         console.log(`Ошибка: ${err}`);
       })
     }
+
+    saveNewCard(titleValue, linkValue) {
+      return fetch(`${this.url}/cards`, {
+        method: 'POST', 
+          headers: {authorization: this.token, 
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          name: titleValue,
+          link: linkValue
+        })
+      }) 
+      .then((res) => {
+        if (res.ok) {
+        return res.json();
+        }
+        return Promise.reject(`Ошибка: ${res.status}`);
+      })   
+      .catch((err)=> {
+        console.log(`Ошибка: ${err}`);
+      })
+    }
   }
 
   export const api = new Api(options);

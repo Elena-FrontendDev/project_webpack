@@ -15,10 +15,10 @@ export default class ProfileInfo {
 
   info() {
     this.api.getProfileInfo()
-    .then((data)      => {
-      this.userNameInfo.textContent = data.name;
-      this.userJobInfo.textContent = data.about;
-      this.userAvatar.style.backgroundImage = 'url('+data.avatar+')';
-    });
-  } 
-  } 
+      .then((data) => {
+        this.userNameInfo.textContent = data.name;
+        this.userJobInfo.textContent = data.about;
+        this.userAvatar.style.backgroundImage = 'url(' + data.avatar + ')';
+      });
+  }
+}
