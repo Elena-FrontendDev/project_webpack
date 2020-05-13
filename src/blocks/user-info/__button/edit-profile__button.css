@@ -6,7 +6,7 @@ button.edit-profile__button {
   }
   
   
-  @media screen and (max-width: 980px) {
+  @media screen and (max-width: 1100px) {
     button.edit-profile__button {
       
       margin: 24px auto 4px auto;
