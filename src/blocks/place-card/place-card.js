@@ -1,7 +1,7 @@
 //Class for create, like and delete card
 
 export default class Card {
-  constructor(title, link, counter) {
+  constructor(title, link, counter,) {
     this.cardElement = this.createCard(title, link, counter);
     this.cardElement.querySelector('.place-card__like-icon').addEventListener('click', this.like);
     this.cardElement.querySelector('.place-card__delete-icon').addEventListener('click', this.delete);

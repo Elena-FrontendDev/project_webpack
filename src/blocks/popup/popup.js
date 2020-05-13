@@ -12,10 +12,11 @@ export default class Popup {
   
     open() {
       this.popupContainer.classList.add('popup_is-opened');
-      addNewCardButton.setAttribute('disabled', true);
+      this.popupContainer.querySelector('.popup__button').setAttribute('disabled', true);
     }
     close() {
       this.popupContainer.classList.remove('popup_is-opened');
-      cardSaveButton.classList.remove('popup__button_active');
+      this.popupContainer.querySelector('.popup__button').classList.remove('popup__button_active');
+      this.popupContainer.querySelector('.error-message').textContent = '';
     }
   }

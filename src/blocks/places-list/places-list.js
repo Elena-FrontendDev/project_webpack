@@ -10,7 +10,9 @@ export default class CardList {
   }
 
   addCard(title, link, counter) {
-    const {cardElement} = new Card(title, link, counter);
+    const {
+      cardElement
+    } = new Card(title, link, counter);
     this.cards.push(cardElement);
     this.containers.appendChild(cardElement);
   }
@@ -19,10 +21,9 @@ export default class CardList {
     this.api.getInitialCards()
       .then((resArray) => {
         this.cards = Array.from(resArray)
-        this.cards.forEach(element =>
-          {
-            // console.log(element.likes.length);
-          this.addCard(element.name, element.link, element.likes.length)})
+        this.cards.forEach(element => {
+          this.addCard(element.name, element.link, element.likes.length, element._id)
+        })
       })
   }
 }

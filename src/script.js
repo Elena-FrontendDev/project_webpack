@@ -19,6 +19,7 @@ const closeEditProfileButton = container.querySelector('.popup__edit-profile__cl
 const editCardForm = document.forms.edit;
 const closeImageButton = document.querySelector('.popup__image_close');
 
+const avatar = document.querySelector('.user-info__photo');
 const cardname = document.querySelector('#cardname');
 const cardlink = document.querySelector('#cardlink');
 const cardSaveButton = addNewCardForm.querySelector('.popup__button');
@@ -29,8 +30,13 @@ const newEditProfileInfo = new NewEditProfileInfo('.popup__input_type_edit-name'
 const cardListContainer = new CardList(document.querySelector('.places-list'), api);
 const popup = new Popup(container.querySelector('.popup'));
 const popupEdit = new Popup(container.querySelector('.popup__edit-profile'));
+const popupAvatar = new Popup(container.querySelector('.popup__avatar'));
 
-
+//
+const closeAvatarEdit = container.querySelector('.popup__avatar__close');
+const avatarForm= document.forms.avatar;
+const avatarLink = document.querySelector('#avatarlink');
+const avatarSaveButton = avatarForm.querySelector('.popup__button');
 
 
 addNewCardForm.addEventListener('input', function () {
@@ -73,6 +79,41 @@ cardlink.addEventListener('input', function () {
 
 });
 
+//---//
+closeAvatarEdit.addEventListener('click', () => {
+    popupAvatar.close();
+});
+
+avatarLink.addEventListener('input', function () {
+    let error = '';
+  
+    if (!avatarLink.checkValidity()) {
+      if (avatarLink.validity.valueMissing) {
+        error = 'Это обязательное поле';
+      }
+      if (avatarLink.validity.typeMismatch) {
+        error = 'Здесь должна быть ссылка';
+      }
+    }
+    avatarLink.nextElementSibling.textContent = error;
+  
+});
+
+avatarForm.addEventListener('input', function () {
+    if (avatarLink.checkValidity()) {
+        avatarSaveButton.classList.add('popup__button_active');
+    } else {
+        avatarSaveButton.classList.remove('popup__button_active');
+    }
+    avatarSaveButton.disabled = !avatarForm.checkValidity();
+  });
+
+avatarForm.addEventListener('submit', () => {
+    event.preventDefault();
+    avatar.style.backgroundImage = 'url(' + avatarForm.elements.link.value + ')';
+    api.editAvatar(avatarForm.elements.link.value);
+    popupAvatar.close();
+})
 
 showNewCardPopupButton.addEventListener('click', function () {
   popup.open();
@@ -92,6 +133,10 @@ addNewCardForm.addEventListener('submit', function (event) {
 });
 
 
+
+avatar.addEventListener('click', () => {
+  popupAvatar.open();
+});
 
 showEditProfileButton.addEventListener('click', function () {
   getInfoForForm();
