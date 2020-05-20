@@ -92,6 +92,50 @@ class Api {
       })
   }
 
+  setLike(cardId) {
+    return fetch(`${this.url}/cards/like/${cardId}`, {
+        method: 'PUT',
+        headers: {
+          authorization: this.token,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          
+        })
+      })
+      .then((res) => {
+        if (res.ok) {
+          return res.json();
+        }
+        return Promise.reject(`Ошибка: ${res.status}`);
+      })
+      .catch((err) => {
+        console.log(`Ошибка: ${err}`);
+      })
+  }
+
+  deleteLike(cardId) {
+    return fetch(`${this.url}/cards/like/${cardId}`, {
+        method: 'DELETE',
+        headers: {
+          authorization: this.token,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          
+        })
+      })
+      .then((res) => {
+        if (res.ok) {
+          return res.json();
+        }
+        return Promise.reject(`Ошибка: ${res.status}`);
+      })
+      .catch((err) => {
+        console.log(`Ошибка: ${err}`);
+      })
+  }
+
   deleteCard(cardId) {
     return fetch(`${this.url}/cards/${cardId}`, {
         method: 'DELETE',
