@@ -52,9 +52,10 @@ export default class Card {
       const deleteButton = document.createElement('button');
       deleteButton.classList.add('place-card__delete-icon');
       placeCard.querySelector(".place-card__image").appendChild(deleteButton);
+      deleteButton.addEventListener('click', this.delete.bind(this));
     }
 
-
+    
     return placeCard;
 
     // const placeCard = document.createElement("div");
@@ -104,6 +105,8 @@ export default class Card {
   }
 
   delete(event) {
+    console.log(this.cardId);
+    api.deleteCard(this.cardId);
     event.target.closest('.place-card').remove();
   }
 }
