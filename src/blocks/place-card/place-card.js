@@ -37,15 +37,21 @@ export default class Card {
        </div>`;
 
     placeCard.querySelector(".place-card__name").textContent = this.title;
-    placeCard.querySelector(".place-card__image").style.backgroundImage = 'url(' + this.link + ')';
-    placeCard.querySelector(".place-card__like-counter").textContent = this.likes.length;
+    // placeCard.querySelector(".place-card__image").style.backgroundImage = 'url(' + this.link + ')';
+    placeCard.querySelector(".place-card__image").style.backgroundImage = 'url(' + this.link + '), url(./images/image_error.jpg)';
+
+    //placeCard.querySelector(".place-card__like-counter").textContent = this.likes.length;
+    this.likes ? placeCard.querySelector(".place-card__like-counter").textContent = this.likes.length :
+      placeCard.querySelector(".place-card__like-counter").textContent = '0';
 
     //const liked = this.likes.filter(like => like._id === this.userId);
-    this.likes.forEach(like => {
-      if (like._id === this.userId) {
-        placeCard.querySelector('.place-card__like-icon').classList.add('place-card__like-icon_liked');
-      }
-    });
+    if (this.likes) {
+      this.likes.forEach(like => {
+        if (like._id === this.userId) {
+          placeCard.querySelector('.place-card__like-icon').classList.add('place-card__like-icon_liked');
+        }
+      });
+    }
 
     //<button class="place-card__delete-icon"></button>
     if (this.ownerId === this.userId) {
@@ -55,7 +61,7 @@ export default class Card {
       deleteButton.addEventListener('click', this.delete.bind(this));
     }
 
-    
+
     return placeCard;
 
     // const placeCard = document.createElement("div");
@@ -80,7 +86,7 @@ export default class Card {
   }
 
   like(event) {
-
+    
     if (event.target.classList.contains('place-card__like-icon_liked')) {
       event.target.classList.remove('place-card__like-icon_liked');
       api.deleteLike(this.cardId)
@@ -89,10 +95,12 @@ export default class Card {
         })
     } else {
       event.target.classList.add('place-card__like-icon_liked');
-        api.setLike(this.cardId)
-          .then((card) => {
-            this.cardElement.querySelector('.place-card__like-counter').textContent = card.likes.length;
-          })
+      console.log(this.cardId);
+      api.setLike(this.cardId)
+        .then((card) => {
+          console.log(card);
+          card.likes.length > '0' ? this.cardElement.querySelector('.place-card__like-counter').textContent = card.likes.length : this.cardElement.querySelector('.place-card__like-counter').textContent = '1';
+        })
     }
 
     // event.target.classList.toggle('place-card__like-icon_liked');

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="ru">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,6 +8,7 @@
   <title>Mesto</title>
   <link rel="stylesheet" href="<%=htmlWebpackPlugin.files.chunks.main.css %>">
 </head>
+
 <body>
   <div class="root">
     <header class="header root__section">
@@ -17,40 +19,31 @@
         <div class="user-info__photo"></div>
         <div class="user-info__data">
           <h1 class="user-info__name"></h1>
-          <p class="user-info__job"></p> 
+          <p class="user-info__job"></p>
           <button class="button edit-profile__button">Edit</button>
         </div>
-        <button class="button user-info__button">+</button>  
+        <button class="button user-info__button">+</button>
       </div>
     </div>
+    <div class="preloader">
+        <i class="preloader__circle"></i>
+      <h5 class="preloader-subtitle">Загрузка...</h5>
+    </div>
     <div class="places-list root__section">
-
+  
     </div>
     <div class="popup">
       <div class="popup__content">
         <img src="<%=require('./images/close.svg')%>" alt="" class="popup__close">
         <h3 class="popup__title">Новое место</h3>
         <form id="form" novalidate class="popup__form" name="new">
-            <input 
-              id="cardname"
-              type="text" 
-              required 
-              minlength="2" 
-              maxlength="30" 
-              name="name" 
-              class="popup__input popup__input_type_name" 
-              placeholder="Название">
-              <span id="error-username" class="error-message"></span>
-            <input 
-              id="cardlink"
-              type="url" 
-              required 
-              minlength="2" 
-              name="link" 
-              class="popup__input popup__input_type_link-url" 
-              placeholder="Ссылка на картинку">
-              <span id="error-userinfo" class="error-message"></span>
-            <button type="submit" class="button popup__button">+</button>
+          <input id="cardname" type="text" required minlength="2" maxlength="30" name="name"
+            class="popup__input popup__input_type_name" placeholder="Название">
+          <span id="error-username" class="error-message"></span>
+          <input id="cardlink" type="url" required minlength="2" name="link"
+            class="popup__input popup__input_type_link-url" placeholder="Ссылка на картинку">
+          <span id="error-userinfo" class="error-message"></span>
+          <button type="submit" class="button popup__button">+</button>
         </form>
       </div>
     </div>
@@ -60,16 +53,10 @@
         <img src="<%=require('./images/close.svg')%>" alt="" class="popup__avatar__close">
         <h3 class="popup__title">Обновить аватар</h3>
         <form id="form" novalidate class="popup__form" name="avatar">
-          <input 
-            id="avatarlink"
-            type="url" 
-            required 
-            minlength="2" 
-            name="link" 
-            class="popup__input popup__input_type_link-url" 
-            placeholder="Ссылка на аватар">
-            <span id="error-userinfo" class="error-message"></span>
-            <button id="submit" type="submit" class="button popup__button">Сохранить</button>
+          <input id="avatarlink" type="url" required minlength="2" name="link"
+            class="popup__input popup__input_type_link-url" placeholder="Ссылка на аватар">
+          <span id="error-userinfo" class="error-message"></span>
+          <button id="submit" type="submit" class="button popup__button">Сохранить</button>
         </form>
       </div>
     </div>
@@ -79,39 +66,26 @@
         <img src="<%=require('./images/close.svg')%>" alt="" class="popup__edit-profile__close">
         <h3 class="popup__title">Редактировать профиль</h3>
         <form id="form" novalidate class="popup__form" name="edit">
-            <input 
-              id="username" 
-              type="text" 
-              required 
-              minlength="2" 
-              maxlength="30" 
-              name="name" 
-              class="popup__input popup__input_type_edit-name" 
-              placeholder="Имя">
-            <span id="error-username" class="error-message"></span>
-            <input 
-              id="userinfo" 
-              type="text" 
-              required 
-              minlength="2" 
-              maxlength="30" 
-              name="about" 
-              class="popup__input popup__input_type_about" 
-              placeholder="О себе">
-            <span id="error-userinfo" class="error-message"></span>
-            <button id="submit" type="submit" class="button popup__button">Сохранить</button>
+          <input id="username" type="text" required minlength="2" maxlength="30" name="name"
+            class="popup__input popup__input_type_edit-name" placeholder="Имя">
+          <span id="error-username" class="error-message"></span>
+          <input id="userinfo" type="text" required minlength="2" maxlength="30" name="about"
+            class="popup__input popup__input_type_about" placeholder="О себе">
+          <span id="error-userinfo" class="error-message"></span>
+          <button id="submit" type="submit" class="button popup__button">Сохранить</button>
         </form>
       </div>
-    </div> 
+    </div>
 
     <div class="popup popup__image">
       <div class="popup__content popup__content_image">
         <img src="<%=require('./images/close.svg')%>" alt="" class="popup__image_close">
-        <img alt="" class="popup__image_fullsize">
+        <img alt="" class="popup__image_fullsize" onerror="this.onerror=null; this.src='./images/image_error.jpg'">
       </div>
     </div>
 
   </div>
   <script src="<%= htmlWebpackPlugin.files.chunks.main.entry %>"></script>
 </body>
+
 </html>

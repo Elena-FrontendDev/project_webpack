@@ -14,6 +14,7 @@ import {
     closeImageFullsize
 } from './images/images';
 import './blocks/popup/__form/form_validate';
+import './images/image_error.jpg'
 
 
 const container = document.querySelector('.root');
@@ -55,13 +56,74 @@ api.getProfileInfo()
         userId = result._id;
     })
 
+
 const renderCards = () => {
+    document.querySelector('.preloader').classList.add('preloader-active');
     api.getInitialCards()
-    .then((cards) => {
-        cardListContainer.load(cards, userId)
-    })
+        .then((cards) => {
+            cardListContainer.load(cards, userId)
+        })
+        .finally(() => {
+            document.querySelector('.preloader').classList.remove('preloader-active');
+        })
+
 }
+
+// let img = document.createElement('img');
+// console.log(card.link);
+
+
+
+
+// const filteredCards = [];  
+// cards.forEach(card => {
+//     let img = document.createElement('img');
+//             img.src = `${card.link}`;
+
+//             img.onload = () => {
+//              filteredCards.push(card);
+//              //return filteredCards
+//             }
+//             // console.log(filteredCards);
+//             img.onerror = () => {console.log("Ошибка во время загрузки изображения")}
+//             //  return filteredCards;
+// });         
+
+
+// const filteredCards = cards.filter(
+//     // function checkUrl (card) {
+//     //     return card.likes.length > 3;
+//     // }
+
+// )
+
+// cards.sort((a, b) => {
+//     return b.likes.length - a.likes.length; 
+// });
+
+// cards.forEach(card => {
+//     let img = document.createElement('img');
+//     img.src = `${card.link}`;
+
+//     img.onload = () => {console.log(`Изображение загружено`)}
+//     img.onerror = () => {console.log("Ошибка во время загрузки изображения")}
+// });
+//console.log(filteredCards.length);
+// console.log(filteredCards.length);
+// cardListContainer.load(filteredCards, userId)
+
 renderCards();
+
+// let img = document.createElement('img');
+// img.src = "https://mirpozitiva.ru/uploads/posts/2016-08/1472043884_02.jpg"; 
+
+// img.onload = function() {
+//   alert(`Изображение загружено, размеры ${img.width}x${img.height}`);
+// };
+
+// img.onerror = function() {
+//   alert("Ошибка во время загрузки изображения");
+// };
 
 
 addNewCardForm.addEventListener('input', function () {
@@ -107,6 +169,9 @@ cardlink.addEventListener('input', function () {
 //---//
 closeAvatarEdit.addEventListener('click', () => {
     popupAvatar.close();
+    //avatarForm.querySelector('.error-message').textContent = '';
+    //console.log(avatarForm.querySelector('.error-message').textContent);
+    avatarForm.reset();
 });
 
 avatarLink.addEventListener('input', function () {
@@ -151,8 +216,12 @@ newCardCloseButton.addEventListener('click', function () {
 
 addNewCardForm.addEventListener('submit', function (event) {
     event.preventDefault();
-    cardListContainer.addCard(addNewCardForm.elements.name.value, addNewCardForm.elements.link.value);
-    api.saveNewCard(addNewCardForm.elements.name.value, addNewCardForm.elements.link.value);
+    // cardListContainer.addCard(addNewCardForm.elements.name.value, addNewCardForm.elements.link.value);
+    api.saveNewCard(addNewCardForm.elements.name.value, addNewCardForm.elements.link.value)
+    .then((card) => {
+        cardListContainer.addCard(card.name, card.link, card.likes, card._id, card.owner._id, userId);
+    })
+    
     popup.close();
     addNewCardForm.reset();
 });

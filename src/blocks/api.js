@@ -21,10 +21,10 @@ class Api {
         if (res.ok) {
           return res.json();
         }
-        return Promise.reject(`Ошибка: ${res.status}`);
+        return Promise.reject(`Ошибка номер1: ${res.status}`);
       })
       .catch((err) => {
-        console.log(`Ошибка: ${err}`);
+        console.log(`Ошибка в катч: ${err}`);
       })
   }
 
@@ -100,7 +100,7 @@ class Api {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          
+
         })
       })
       .then((res) => {
@@ -122,7 +122,7 @@ class Api {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          
+
         })
       })
       .then((res) => {
