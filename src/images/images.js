@@ -6,10 +6,11 @@ export function openImageFullsize(event) {
   let linkForFullSize = event.target.style.backgroundImage.split(', ', 1);
   linkForFullSize = linkForFullSize[0].slice(5, linkForFullSize.length - 3)
   
-  const imageFullsize = container.querySelector('.popup__image_fullsize');
+  let imageFullsize = container.querySelector('.popup__image_fullsize');
   imageFullsize.setAttribute('src', linkForFullSize);
 
   if (event.target.classList.contains('place-card__image')) {
+    console.log("one error");
     popupWithImage.classList.add('popup__image_fullsize_is-opened');
   }
 }
