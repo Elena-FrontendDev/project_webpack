@@ -1,7 +1,7 @@
 @import url(./__section/root__section.css);
 
 .root {
-  background-color: black;
+  background: #09203f;
   min-height: 100vh;
   font-family: 'Inter';
   padding-bottom: 194px;
@@ -9,7 +9,7 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-@media screen and (max-width: 1024px) {
+@media screen and (max-width: 1100px) {
   .root {
     padding-bottom: 140px;
   }

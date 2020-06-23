@@ -3,4 +3,8 @@
   font-weight: normal;
   font-size: 54px;
   line-height: 56px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
 }

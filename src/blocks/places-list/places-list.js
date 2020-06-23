@@ -1,27 +1,24 @@
 //Class for initial cards on loading page
 
-import Card from '../place-card/place-card';
-
 export default class CardList {
-    constructor(containers, api) {
-      this.containers = containers;
-      this.api = api;
-      this.load();
-    }
-  
-     addCard(title, link) {
-      const { cardElement } = new Card(title, link);
-  
-      this.cards.push(cardElement);
-      this.containers.appendChild(cardElement);
-    }
-  
-    load() {
-      this.api.getInitialCards()
-        .then((resArray) => {
-          this.cards = Array.from(resArray)
-           this.cards.forEach(element => 
-            this.addCard(element.name, element.link))
-    })
-    }
+  constructor(containers, api, newCard, userId) {
+    this.containers = containers;
+    this.newCard = newCard;
+    this.api = api;
   }
+
+  addCard(title, link, likes, cardId, ownerId, userId) {
+
+    const cardElement = this.newCard.createCard(title, link, likes, cardId, ownerId, userId);
+    this.containers.appendChild(cardElement);
+
+  }
+
+  load(cards, userId) {
+    cards.forEach(card => {
+
+      this.addCard(card.name, card.link, card.likes, card._id, card.owner._id, userId)
+    })
+  }
+
+}
