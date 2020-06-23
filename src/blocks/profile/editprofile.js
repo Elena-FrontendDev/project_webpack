@@ -1,8 +1,11 @@
-import {api} from '../api';
+import {
+  api
+} from '../api';
 
 const container = document.querySelector('.root');
 const userInfo = container.querySelector('.user-info__data');
 const editCardForm = document.forms.edit;
+
 
 //Class for save new information in the form on the server
 
@@ -20,6 +23,7 @@ export default class NewEditProfileInfo {
   }
 }
 
+
 //Function for add name and job information in edit profile form
 
 export function getInfoForForm() {
@@ -28,6 +32,7 @@ export function getInfoForForm() {
   nameForm.value = userInfo.querySelector(".user-info__name").textContent;
   jobForm.value = userInfo.querySelector(".user-info__job").textContent;
 }
+
 
 //Function for add user information in the edit profile form
 

@@ -22,6 +22,7 @@ const showNewCardPopupButton = container.querySelector('.user-info__button');
 const newCardCloseButton = container.querySelector('.popup__close');
 const cardList = container.querySelector('.places-list');
 const addNewCardForm = document.forms.new;
+const preloader = document.querySelector('.preloader');
 
 const showEditProfileButton = container.querySelector('.edit-profile__button');
 const closeEditProfileButton = container.querySelector('.popup__edit-profile__close');
@@ -37,94 +38,45 @@ const cardSaveButton = addNewCardForm.querySelector('.popup__button');
 
 const profileInfo = new ProfileInfo('.user-info__name', '.user-info__job', '.user-info__photo', api);
 const newEditProfileInfo = new NewEditProfileInfo('.popup__input_type_edit-name', '.popup__input_type_about')
-const cardListContainer = new CardList(document.querySelector('.places-list'), api, userId);
 const popup = new Popup(container.querySelector('.popup'));
 const popupEdit = new Popup(container.querySelector('.popup__edit-profile'));
 const popupAvatar = new Popup(container.querySelector('.popup__avatar'));
+const newCard = new Card();
+const cardListContainer = new CardList(document.querySelector('.places-list'), api, newCard, userId);
 
-//
+
 const closeAvatarEdit = container.querySelector('.popup__avatar__close');
 const avatarForm = document.forms.avatar;
 const avatarLink = document.querySelector('#avatarlink');
 const avatarSaveButton = avatarForm.querySelector('.popup__button');
 
-
 let userId = null;
-api.getProfileInfo()
-    .then((result) => {
-        profileInfo.info(result);
-        userId = result._id;
-    })
 
 
-const renderCards = () => {
-    document.querySelector('.preloader').classList.add('preloader-active');
+
+//Get information about Profile from and render initial cards from server
+
+window.onload = () => {
+    api.getProfileInfo()
+        .then((result) => {
+            profileInfo.info(result);
+            userId = result._id;
+        })
+
+        preloader.classList.add('preloader-active');
     api.getInitialCards()
+
         .then((cards) => {
             cardListContainer.load(cards, userId)
         })
-        .finally(() => {
-            document.querySelector('.preloader').classList.remove('preloader-active');
-        })
 
+        .finally(() => {
+            preloader.classList.remove('preloader-active');
+        })
 }
 
-// let img = document.createElement('img');
-// console.log(card.link);
 
-
-
-
-// const filteredCards = [];  
-// cards.forEach(card => {
-//     let img = document.createElement('img');
-//             img.src = `${card.link}`;
-
-//             img.onload = () => {
-//              filteredCards.push(card);
-//              //return filteredCards
-//             }
-//             // console.log(filteredCards);
-//             img.onerror = () => {console.log("Ошибка во время загрузки изображения")}
-//             //  return filteredCards;
-// });         
-
-
-// const filteredCards = cards.filter(
-//     // function checkUrl (card) {
-//     //     return card.likes.length > 3;
-//     // }
-
-// )
-
-// cards.sort((a, b) => {
-//     return b.likes.length - a.likes.length; 
-// });
-
-// cards.forEach(card => {
-//     let img = document.createElement('img');
-//     img.src = `${card.link}`;
-
-//     img.onload = () => {console.log(`Изображение загружено`)}
-//     img.onerror = () => {console.log("Ошибка во время загрузки изображения")}
-// });
-//console.log(filteredCards.length);
-// console.log(filteredCards.length);
-// cardListContainer.load(filteredCards, userId)
-
-renderCards();
-
-// let img = document.createElement('img');
-// img.src = "https://mirpozitiva.ru/uploads/posts/2016-08/1472043884_02.jpg"; 
-
-// img.onload = function() {
-//   alert(`Изображение загружено, размеры ${img.width}x${img.height}`);
-// };
-
-// img.onerror = function() {
-//   alert("Ошибка во время загрузки изображения");
-// };
-
+//Validation for popup for create new card
 
 addNewCardForm.addEventListener('input', function () {
     if (cardname.checkValidity() && cardlink.checkValidity()) {
@@ -135,6 +87,8 @@ addNewCardForm.addEventListener('input', function () {
     cardSaveButton.disabled = !addNewCardForm.checkValidity();
 });
 
+
+//Validation for card name input 
 
 cardname.addEventListener('input', function () {
     let error = '';
@@ -151,6 +105,9 @@ cardname.addEventListener('input', function () {
 
 });
 
+
+//Validation for card link input 
+
 cardlink.addEventListener('input', function () {
     let error = '';
 
@@ -166,13 +123,23 @@ cardlink.addEventListener('input', function () {
 
 });
 
-//---//
+
+//Open popup for edit avatar
+
+avatar.addEventListener('click', () => {
+    popupAvatar.open();
+});
+
+
+//Close popup for edit avatar
+
 closeAvatarEdit.addEventListener('click', () => {
     popupAvatar.close();
-    //avatarForm.querySelector('.error-message').textContent = '';
-    //console.log(avatarForm.querySelector('.error-message').textContent);
     avatarForm.reset();
 });
+
+
+//Validation for avatar's link 
 
 avatarLink.addEventListener('input', function () {
     let error = '';
@@ -189,6 +156,9 @@ avatarLink.addEventListener('input', function () {
 
 });
 
+
+//Lister for input for avatar field
+
 avatarForm.addEventListener('input', function () {
     if (avatarLink.checkValidity()) {
         avatarSaveButton.classList.add('popup__button_active');
@@ -198,6 +168,9 @@ avatarForm.addEventListener('input', function () {
     avatarSaveButton.disabled = !avatarForm.checkValidity();
 });
 
+
+//Update avatar image on the server after submit form
+
 avatarForm.addEventListener('submit', () => {
     event.preventDefault();
     avatar.style.backgroundImage = 'url(' + avatarForm.elements.link.value + ')';
@@ -205,50 +178,67 @@ avatarForm.addEventListener('submit', () => {
     popupAvatar.close();
 })
 
-showNewCardPopupButton.addEventListener('click', function () {
-    popup.open();
-});
 
-newCardCloseButton.addEventListener('click', function () {
-    popup.close();
-    addNewCardForm.reset();
-});
-
-addNewCardForm.addEventListener('submit', function (event) {
-    event.preventDefault();
-    // cardListContainer.addCard(addNewCardForm.elements.name.value, addNewCardForm.elements.link.value);
-    api.saveNewCard(addNewCardForm.elements.name.value, addNewCardForm.elements.link.value)
-    .then((card) => {
-        cardListContainer.addCard(card.name, card.link, card.likes, card._id, card.owner._id, userId);
-    })
-    
-    popup.close();
-    addNewCardForm.reset();
-});
-
-
-
-avatar.addEventListener('click', () => {
-    popupAvatar.open();
-});
+//Open popup for edit user information and show information for fields from the server
 
 showEditProfileButton.addEventListener('click', function () {
     getInfoForForm();
     popupEdit.open();
 });
 
+
+//Close popup for edit user information on click close button
+
 closeEditProfileButton.addEventListener('click', function () {
     popupEdit.close();
 });
 
+
+//Update user information on the sever after submit form and close popup
+
 editCardForm.addEventListener('submit', function () {
+    newEditProfileInfo.edit(event);
     popupEdit.close();
 });
 
 
-editCardForm.addEventListener('submit', function () {
-    newEditProfileInfo.edit(event);
+
+//Open popup for create new card
+
+showNewCardPopupButton.addEventListener('click', function () {
+    popup.open();
 });
 
+
+//Close popup for create new card
+
+newCardCloseButton.addEventListener('click', function () {
+    popup.close();
+    addNewCardForm.reset();
+});
+
+
+//Send information about new card after submit form for create card
+
+addNewCardForm.addEventListener('submit', function (event) {
+    event.preventDefault();
+
+    api.saveNewCard(addNewCardForm.elements.name.value, addNewCardForm.elements.link.value)
+        .then((card) => {
+            cardListContainer.addCard(card.name, card.link, card.likes, card._id, card.owner._id, userId);
+        })
+
+    popup.close();
+    addNewCardForm.reset();
+});
+
+
+
+//Open full size image on click for card's image
+
 cardList.addEventListener('click', openImageFullsize);
+
+
+//Close full size image on click close button
+
 closeImageButton.addEventListener('click', closeImageFullsize);

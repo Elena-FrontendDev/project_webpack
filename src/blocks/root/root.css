@@ -1,7 +1,7 @@
 @import url(./__section/root__section.css);
 
 .root {
-  background-color: black;
+  background: #09203f;
   min-height: 100vh;
   font-family: 'Inter';
   padding-bottom: 194px;
