@@ -1,4 +1,4 @@
-const serverUrl = NODE_ENV === 'development' ? 'http://praktikum.tk/cohort4' : 'https://praktikum.tk/cohort4';
+const serverUrl = NODE_ENV === 'development' ? 'http://nomoreparties.co/cohort4' : 'https://nomoreparties.co/cohort4';
 const options = {
   baseUrl: serverUrl,
   token: '34297802-4775-4606-acce-9817fbd4faf0'
